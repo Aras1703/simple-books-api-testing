@@ -1,4 +1,4 @@
-from base import APIClient
+from endpoint.base import APIClient
 
 class SimpleBooksAPI(APIClient):
     def __init__(self):

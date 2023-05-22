@@ -1,5 +1,5 @@
 import pytest
-from simple_books import SimpleBooksAPI
+from endpoint.simple_books import SimpleBooksAPI
 
 @pytest.fixture()
 def simplebooks_api():
