@@ -14,9 +14,7 @@ class SimpleBooksAPI(APIClient):
             'clientName':Name,
             'clientEmail':Email,
         }
-        token = self.post(self.base_url+'/api-clients', data=payload)
-        return token.json().get('accessToken')
-        
+        return self.post(self.base_url+'/api-clients', json=payload)
     
     def get_list_books(self):
         return self.get(self.base_url+'/books')
@@ -32,7 +30,7 @@ class SimpleBooksAPI(APIClient):
         headers = {
             'Authorization':f'Bearer {api_key}',
         }
-        return self.post(self.base_url+'/orders', data=payload, headers=headers)
+        return self.post(self.base_url+'/orders', json=payload, headers=headers)
     
     def get_all_book_orders(self, api_key):
         headers = {
