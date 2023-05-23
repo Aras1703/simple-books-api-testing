@@ -1,9 +1,10 @@
 from endpoint.base import APIClient
 
 class SimpleBooksAPI(APIClient):
-    def __init__(self):
+    def __init__(self,):
         super().__init__()
         self.base_url = 'https://simple-books-api.glitch.me'
+
     
     def get_status(self):
         return self.get(self.base_url+'/status')
@@ -13,13 +14,15 @@ class SimpleBooksAPI(APIClient):
             'clientName':Name,
             'clientEmail':Email,
         }
-        return self.post(self.base_url+'/api-clients', data=payload)
+        token = self.post(self.base_url+'/api-clients', data=payload)
+        return token.json().get('accessToken')
+        
     
     def get_list_books(self):
         return self.get(self.base_url+'/books')
     
-    def get_single_book(self, booksId):
-        return self.get(f'{self.base_url}/{booksId}')
+    def get_single_book(self, bookId):
+        return self.get(f'{self.base_url}/books/{bookId}')
     
     def order_book(self, bookId, customerName, api_key):
         payload = {
@@ -27,7 +30,7 @@ class SimpleBooksAPI(APIClient):
             'customerName':customerName,
         }
         headers = {
-            'Authorization':api_key,
+            'Authorization':f'Bearer {api_key}',
         }
         return self.post(self.base_url+'/orders', data=payload, headers=headers)
     
