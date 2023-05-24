@@ -5,6 +5,16 @@ from endpoint.simple_books import SimpleBooksAPI
 @pytest.fixture()
 def simplebooks_api():
     return SimpleBooksAPI()
+
+def get_api_key():
+    # Create Instance
+    api = SimpleBooksAPI()
+    
+    # Register to get the api key
+    Name = names.get_first_name(gender='male')
+    Email = Name+'@gmail.com'
+    api_key = api.regist_api_key(Name, Email)
+    return api_key.json().get('accessToken')
     
 
 def test_get_status(simplebooks_api):
@@ -23,16 +33,14 @@ def test_get_single_book(simplebooks_api):
     assert data['current-stock'] > 0
 
 def test_post_order_book(simplebooks_api):
-    #Register to get the api key
-    Name = names.get_first_name(gender='male')
-    Email = Name+'@gmail.com'
-    api_key = simplebooks_api.regist_api_key(Name, Email)
-    token = api_key.json().get('accessToken')
-
+    # Get api key
+    token = get_api_key()
     response = simplebooks_api.order_book(bookId=5, 
                                           customerName='Bazw', 
                                           api_key=token,)
     assert response.status_code == 201
-    
-    
-    
+
+def test_get_all_book_orders(simplebooks_api):
+    token = get_api_key()
+    response = simplebooks_api.get_all_book_orders(token)
+    assert response.status_code == 200
