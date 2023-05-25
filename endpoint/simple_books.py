@@ -34,24 +34,24 @@ class SimpleBooksAPI(APIClient):
     
     def get_all_book_orders(self, api_key):
         headers = {
-            'Authorization':api_key,
+            'Authorization':f'Bearer {api_key}',
         }
         return self.get(self.base_url+'/orders', headers=headers)
     
     def get_ordered_book(self, orderId, api_key):
         headers = {
-            'Authorization':api_key,
+            'Authorization':f'Bearer {api_key}',
         }
-        return self.get(f'{self.base_url}/orders/:{orderId}', headers=headers)
+        return self.get(f'{self.base_url}/orders/{orderId}', headers=headers)
     
     def update_order(self, orderId, customerName, api_key):
         headers = {
-            'Authorization':api_key,
+            'Authorization':f'Bearer {api_key}',
         }
-        return self.patch(f'{self.base_url}/orders/:{orderId}', headers=headers, data=customerName)
+        return self.patch(f'{self.base_url}/orders/{orderId}', headers=headers, data=customerName)
     
     def delete_order(self, orderId, api_key):
         headers = {
-            'Authorization':api_key,
+            'Authorization':f'Bearer {api_key}',
         }
-        return self.delete(f'{self.base_url}/orders/:{orderId}')
+        return self.delete(f'{self.base_url}/orders/{orderId}')
