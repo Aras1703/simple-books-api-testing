@@ -1,5 +1,6 @@
 from endpoint.base import APIClient
 
+
 class SimpleBooksAPI(APIClient):
     def __init__(self,):
         super().__init__()
