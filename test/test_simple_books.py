@@ -24,6 +24,8 @@ def test_get_status(simplebooks_api):
 def test_get_list_books(simplebooks_api):
     response = simplebooks_api.get_list_books()
     assert response.status_code == 200
+    data = response.json()
+    assert len(data) > 0
 
 def test_get_single_book(simplebooks_api):
     bookId=5
@@ -37,7 +39,7 @@ def test_post_order_book(simplebooks_api):
     # Get api key
     token = get_api_key()
     response = simplebooks_api.order_book(bookId=5, 
-                                          customerName='Bazw', 
+                                          customerName='Nay', 
                                           api_key=token)
     assert response.status_code == 201
 
@@ -49,9 +51,21 @@ def test_get_all_book_orders(simplebooks_api):
 def test_get_ordered_book(simplebooks_api):
     token = get_api_key()
     post_order_book = simplebooks_api.order_book(bookId=5, 
-                                                customerName='Bazw', 
+                                                customerName='Nay', 
                                                 api_key=token)
     
     orderId = post_order_book.json().get('orderId')
     response = simplebooks_api.get_ordered_book(orderId=orderId, api_key=token)
     assert response.status_code == 200
+
+def test_update_order(simplebooks_api):
+    token = get_api_key()
+    post_order_book = simplebooks_api.order_book(bookId=5, 
+                                                customerName='Nay', 
+                                                api_key=token)
+    
+    orderId = post_order_book.json().get('orderId')
+    response = simplebooks_api.update_order(orderId=orderId, 
+                                            customerName='Bazw',
+                                            api_key=token)
+    assert response.status_code == 204
