@@ -69,3 +69,13 @@ def test_update_order(simplebooks_api):
                                             customerName='Bazw',
                                             api_key=token)
     assert response.status_code == 204
+
+def test_delete_order(simplebooks_api):
+    token = get_api_key()
+    post_order_book = simplebooks_api.order_book(bookId=5, 
+                                                customerName='Nay', 
+                                                api_key=token)
+    
+    orderId = post_order_book.json().get('orderId')
+    response = simplebooks_api.delete_order(orderId=orderId, api_key=token)
+    assert response.status_code == 204

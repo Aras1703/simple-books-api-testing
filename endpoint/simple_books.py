@@ -55,4 +55,4 @@ class SimpleBooksAPI(APIClient):
         headers = {
             'Authorization':f'Bearer {api_key}',
         }
-        return self.delete(f'{self.base_url}/orders/{orderId}')
+        return self.delete(f'{self.base_url}/orders/{orderId}', headers=headers)
